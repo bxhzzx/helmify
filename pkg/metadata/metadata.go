@@ -3,7 +3,6 @@ package metadata
 import (
 	"fmt"
 	"github.com/arttor/helmify/pkg/config"
-	"strings"
 
 	"github.com/arttor/helmify/pkg/helmify"
 	"github.com/sirupsen/logrus"
@@ -44,12 +43,12 @@ func (a *Service) Config() config.Config {
 // If no common prefix - returns name as it is.
 // It is better to trim common prefix because Helm also adds release name as common prefix.
 func (a *Service) TrimName(objName string) string {
-	trimmed := strings.TrimPrefix(objName, a.commonPrefix)
-	trimmed = strings.TrimLeft(trimmed, "-./_ ")
-	if trimmed == "" {
-		return objName
-	}
-	return trimmed
+	// trimmed := strings.TrimPrefix(objName, a.commonPrefix)
+	// trimmed = strings.TrimLeft(trimmed, "-./_ ")
+	// if trimmed == "" {
+	// 	return objName
+	// }
+	return objName
 }
 
 var _ helmify.AppMetadata = &Service{}
