@@ -2,6 +2,8 @@ package metadata
 
 import (
 	"fmt"
+	"unicode"
+
 	"github.com/arttor/helmify/pkg/config"
 
 	"github.com/arttor/helmify/pkg/helmify"
@@ -39,16 +41,23 @@ func (a *Service) Config() config.Config {
 	return a.conf
 }
 
+func AddPrefixIfNeeded(s string) string {
+	if s == "" {
+		return s
+	}
+
+	if !unicode.IsLetter(rune(s[0])) {
+		return "key_" + s
+	}
+
+	return s
+}
+
 // TrimName - tries to trim app common prefix for object name if detected.
 // If no common prefix - returns name as it is.
 // It is better to trim common prefix because Helm also adds release name as common prefix.
 func (a *Service) TrimName(objName string) string {
-	// trimmed := strings.TrimPrefix(objName, a.commonPrefix)
-	// trimmed = strings.TrimLeft(trimmed, "-./_ ")
-	// if trimmed == "" {
-	// 	return objName
-	// }
-	return objName
+	return AddPrefixIfNeeded(objName)
 }
 
 var _ helmify.AppMetadata = &Service{}
